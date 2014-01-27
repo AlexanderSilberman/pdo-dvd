@@ -1,41 +1,44 @@
 <?php
 
 $host = 'itp460.usc.edu';
-$dbname = 'music';
+$dbname = 'dvd';
 $user = 'student';
 $pass = 'ttrojan';
 
-$artist=$_GET['artist']; //$_REQUEST[‘artist’]
+$title=$_GET['title']; //$_REQUEST[‘artist’]
 
 $pdo= new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 
 $sql = "
-SELECT title, price, play_count, artist_name
-FROM songs
-INNER JOIN artists
-ON songs.artist_id=artists.id
-WHERE artist_name= ?
-ORDER BY play_count DESC
+SELECT title, rating, genre, format
+FROM dvd_titles
+INNER JOIN ratings ON dvd_titles.rating_id=ratings.id
+INNER JOIN genres ON dvd_titles.genre_id=genres.id
+INNER JOIN formats ON dvd_titles.format_id=formats.id
+WHERE title= ?
+ORDER BY title DESC
 ";
 
 $statement = $pdo->prepare($sql);
 
-$like = '%'.$artist.'%';
+$like = '%'.$title.'%';
 $statement->bindParam(1, $like);
 
 $statement->execute();
-$songs=$statement->fetchAll(PDO::FETCH_OBJ);
+$dvds=$statement->fetchAll(PDO::FETCH_OBJ);
 
 //var_dump($songs);
 
 ?>
+You searched for '<?php $title ?>':
 
-<?php foreach($songs as $song) : ?>
+<?php foreach($dvds as $dvd) : ?>
 
 <h3>
- <?php echo $song->title ?>
+ <?php echo $dvd->title ?>
 </h3>
-<p> Play Count: <?php echo $song->play_count ?> </p>
-<p> $<?php echo $song->price ?> </p>
+<p> Rating: <?php echo $dvd->rating ?> </p>
+<p> Genre: <?php echo $dvd->genre ?> </p>
+<p> Format: <?php echo $dvd->format ?> </p>
 
 <?php endforeach; ; ?>>
