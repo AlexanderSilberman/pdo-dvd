@@ -28,7 +28,6 @@ class Song{
 	}
 	public function save(){
 		$statement = $this->pdo->prepare($this->sql);
-		echo "hi ".$this->sql;
 		return $statement->execute();
 		
 	}
