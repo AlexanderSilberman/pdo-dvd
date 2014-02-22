@@ -1,0 +1,12 @@
+{
+  "require": {
+    "monolog/monolog": "1.7.0",
+    "symfony/http-foundation": "2.3.*@dev",
+    "nesbot/carbon": "1.8.0"
+  },
+  "autoload":{
+	"classmap": [
+	  "ITP/"
+	]
+   }	
+}
